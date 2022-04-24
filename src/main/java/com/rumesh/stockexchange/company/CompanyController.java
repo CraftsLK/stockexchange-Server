@@ -59,4 +59,8 @@ public class CompanyController {
         return companyService.getPrice();
 
     }
+    @GetMapping("/get-tweets/{symbol}")
+    public ResponseEntity<List<CompanyNews>> getNews(@PathVariable String symbol) {
+        return companyService.getCompanyNews(symbol);
+    }
 }

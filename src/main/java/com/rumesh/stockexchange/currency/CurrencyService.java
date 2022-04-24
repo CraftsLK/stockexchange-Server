@@ -107,7 +107,7 @@ public class CurrencyService {
 
     @Contract(pure = true)
     private @NotNull String ratesURL(String code) {
-      return "http://localhost:8080/CurConvRS/webresources/exchangeRate?fromCur="+ code +"&toCur=USD";
+      return "http://localhost:8080/CurConvRS/webresources/exchangeRate?fromCur=USD&toCur="+ code;
     }
     private @NotNull JSONObject getCurConvData(String response) throws ParseException {
         JSONParser curConv = new JSONParser();
