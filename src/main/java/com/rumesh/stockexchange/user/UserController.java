@@ -19,12 +19,17 @@ public class UserController {
         return service.getAll();
     }
 
-    /* @GetMapping("/get-by-id/{id}")
+     @GetMapping("/get-by-id/{id}")
     public ResponseEntity<User> getById(@PathVariable int id) {
         return service.getById(id);
     }
 
-     */
+
+    @PostMapping("/login")
+    public ResponseEntity<User> login(@RequestBody User item) {
+        return service.login(item);
+    }
+
 
     @PostMapping("/create")
     public ResponseEntity<User> create(@RequestBody User item) {

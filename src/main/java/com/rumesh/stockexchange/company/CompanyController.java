@@ -38,9 +38,9 @@ public class CompanyController {
     }
     @PostMapping("/create")
     public ResponseEntity<Company> createCompany(@RequestBody Company company) {
-        Company updateCompany;
-        updateCompany = companyService.create(company);
-        return new ResponseEntity<>(updateCompany, HttpStatus.OK);
+        Company createCompany;
+        createCompany = companyService.create(company);
+        return new ResponseEntity<>(createCompany, HttpStatus.OK);
     }
     //delete a company by id
     @DeleteMapping("/delete/{id}")

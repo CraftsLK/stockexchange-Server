@@ -6,6 +6,8 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -18,6 +20,7 @@ import java.util.Optional;
 
 
 @Service
+@Component
 public class CompanyService {
 
     PrintWriter writerObj1 =null;
@@ -52,6 +55,7 @@ public class CompanyService {
         getPriceEvent();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @Scheduled(cron= "0 0/10 * ? * *")
     public void getPriceEvent() {
 
         List<Company> companies = new ArrayList<>(companyRepo.findAll());
@@ -69,6 +73,7 @@ public class CompanyService {
                     System.out.println("Exception" + err);
                 }
             }
+            System.out.println("updating share prices");
             companyRepo.saveAll(companies);
             printJSON(companies);
         }
@@ -103,8 +108,9 @@ public class CompanyService {
         }
     }
     private String quoteURL (String companySymbol){
+        String API = "TDPJMOR8QZZJBTAY";  //TDPJMOR8QZZJBTAY, NRY4DZTJINT3LLUL, demo
         return "https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=" + companySymbol +
-                "&interval=5min&apikey=NRY4DZTJINT3LLUL"; //TDPJMOR8QZZJBTAY
+                "&interval=15min&apikey="+API;
     }
 
     private JSONObject getAlphavantageData(String response) throws ParseException {
@@ -112,7 +118,7 @@ public class CompanyService {
         JSONObject json = (JSONObject) alpha.parse(response);
         String date = (String) ((JSONObject) json.get("Meta Data")).get("3. Last Refreshed");
         //String price = (String) ((JSONObject) json.get("Time Series (5min)")).get("4. close"); //old
-        JSONObject sharePrice = (JSONObject) ((JSONObject) json.get("Time Series (5min)")).get(date);
+        JSONObject sharePrice = (JSONObject) ((JSONObject) json.get("Time Series (15min)")).get(date);
         String price = String.valueOf(sharePrice.get("4. close")); //new
    // System.out.println(price); //old
         JSONObject data = new JSONObject();

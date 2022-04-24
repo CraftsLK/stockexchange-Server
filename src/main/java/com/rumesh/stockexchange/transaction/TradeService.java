@@ -18,6 +18,7 @@ public class TradeService {
     @Autowired
     private CompanyRepo companyRepo;
 
+
     @Transactional
     public ResponseEntity<HttpStatus> trade(Trade item) {
         try {
@@ -26,10 +27,10 @@ public class TradeService {
                 Company company = companyOptional.get();
                 Float currentShares = company.getAvailShares();
 
-                if ("BUY".equals(item.getType())) {
+                if ("buy".equals(item.getType())) {
                     currentShares = currentShares - item.getNumShares();
                 }
-                else if ("SELL".equals(item.getType())) {
+                else if ("sell".equals(item.getType())) {
                     currentShares = currentShares + item.getNumShares();
                 } else {
                     return new ResponseEntity<>(HttpStatus.NOT_FOUND);

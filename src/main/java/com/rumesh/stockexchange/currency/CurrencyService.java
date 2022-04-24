@@ -8,6 +8,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
@@ -53,6 +54,7 @@ public class CurrencyService {
         getRatesEvent();
         return new ResponseEntity<>(HttpStatus.OK);
     }
+    @Scheduled(cron= "0 0/10 * ? * *")
     private void getRatesEvent() {
         List<Currency> currencies = new ArrayList<>(currencyRepo.findAll());
         for (Currency currency : currencies) {
@@ -68,6 +70,7 @@ public class CurrencyService {
                     System.out.println("Exception" + err);
                 }
             }
+            System.out.println("updating currency rates");
             currencyRepo.saveAll(currencies);
             printJSON(currencies);
         }

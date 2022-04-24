@@ -49,7 +49,7 @@ public class CurrencyController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
     //getting the currency by company symbol(for transaction table)
-    @GetMapping("/get-by-symbol/{symbol}")
+    @GetMapping("/get-by-symbol/{curCode}")
     public ResponseEntity<Currency> getByCode(@PathVariable String curCode) {
     return currencyService.findByCode(curCode);
     }

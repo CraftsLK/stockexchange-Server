@@ -4,18 +4,30 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.*;
+import java.io.Serializable;
+
 @Data
+@Table(name = "trade")
 @NoArgsConstructor
 @AllArgsConstructor
-public class Trade {
+@Entity
+public class Trade implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
+    private Integer id;
 
+    @Column(name = "numShares", nullable = false)
     private Float numShares;
+
+    @Column(name = "companySymbol", nullable = false)
     private String companySymbol;
-  //  private String date;
-   // private Integer userId;
+    @Column(name = "price", nullable = false)
     private Float price;
-   // private Float priceInUsd;
+    @Column(name = "currencyCode", nullable = false)
     private String currencyCode;
+    @Column(name = "type", nullable = false)
     private String type;
 }
 
